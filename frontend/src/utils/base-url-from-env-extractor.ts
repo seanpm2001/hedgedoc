@@ -52,14 +52,11 @@ export class BaseUrlFromEnvExtractor {
    * Extracts the editor and renderer base urls from the environment variables.
    *
    * @return An {@link Optional} with the base urls.
+   * @throws Error if called during static build time.
    */
   public extractBaseUrls(): BaseUrls {
     if (isBuildTime) {
-      return {
-        editor: 'https://example.org/',
-        renderer: 'https://example.org/',
-        internalApiUrl: 'https://example.org/'
-      }
+      throw new Error('At static build time, the base URLs are not available.')
     }
 
     if (this.baseUrls === undefined) {
