@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 The HedgeDoc developers (see AUTHORS file)
+ * SPDX-FileCopyrightText: 2024 The HedgeDoc developers (see AUTHORS file)
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -195,7 +195,7 @@ describe('Media', () => {
         null,
         testNote,
       );
-      const filename = upload.fileUrl.split('/').pop() || '';
+      const filename = upload.fileName.split('/').pop() || '';
 
       // login with a different user;
       const agent2 = request.agent(testSetup.app.getHttpServer());

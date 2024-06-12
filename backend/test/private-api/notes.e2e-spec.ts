@@ -211,7 +211,7 @@ describe('Notes', () => {
           await testSetup.mediaService.listUploadsByUser(user1),
         ).toHaveLength(1);
         // Remove /upload/ from path as we just need the filename.
-        const fileName = upload.fileUrl.replace('/uploads/', '');
+        const fileName = upload.fileName.replace('/uploads/', '');
         // delete the file afterwards
         await fs.unlink(join(uploadPath, fileName));
         await fs.rmdir(uploadPath);

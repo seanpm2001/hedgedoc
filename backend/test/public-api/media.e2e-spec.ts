@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2021 The HedgeDoc developers (see AUTHORS file)
+ * SPDX-FileCopyrightText: 2024 The HedgeDoc developers (see AUTHORS file)
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -118,7 +118,7 @@ describe('Media', () => {
         testSetup.users[0],
         testSetup.ownedNotes[0],
       );
-      const filename = upload.fileUrl.split('/').pop() || '';
+      const filename = upload.fileName.split('/').pop() || '';
       await request(testSetup.app.getHttpServer())
         .delete('/api/v2/media/' + filename)
         .set('Authorization', `Bearer ${testSetup.authTokens[0].secret}`)
@@ -131,7 +131,7 @@ describe('Media', () => {
         testSetup.users[0],
         testSetup.ownedNotes[0],
       );
-      const filename = upload.fileUrl.split('/').pop() || '';
+      const filename = upload.fileName.split('/').pop() || '';
       await request(testSetup.app.getHttpServer())
         .delete('/api/v2/media/' + filename)
         .set('Authorization', `Bearer ${testSetup.authTokens[1].secret}`)
@@ -150,7 +150,7 @@ describe('Media', () => {
         testSetup.users[0],
         testNote,
       );
-      const filename = upload.fileUrl.split('/').pop() || '';
+      const filename = upload.fileName.split('/').pop() || '';
 
       const agent2 = request.agent(testSetup.app.getHttpServer());
 
@@ -190,7 +190,7 @@ describe('Media', () => {
         testSetup.users[0],
         testNote,
       );
-      const filename = upload.fileUrl.split('/').pop() || '';
+      const filename = upload.fileName.split('/').pop() || '';
 
       const agent2 = request.agent(testSetup.app.getHttpServer());
       // try to delete upload with second user

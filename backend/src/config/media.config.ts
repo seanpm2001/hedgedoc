@@ -1,13 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2022 The HedgeDoc developers (see AUTHORS file)
+ * SPDX-FileCopyrightText: 2024 The HedgeDoc developers (see AUTHORS file)
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 import { registerAs } from '@nestjs/config';
 import * as Joi from 'joi';
+import * as process from 'node:process';
 
 import { BackendType } from '../media/backends/backend-type.enum';
-import { buildErrorMessage } from './utils';
+import { buildErrorMessage, parseOptionalBoolean } from './utils';
 
 export interface MediaConfig {
   backend: MediaBackendConfig;
@@ -23,6 +24,8 @@ export interface MediaBackendConfig {
     secretAccessKey: string;
     bucket: string;
     endPoint: string;
+    region: string;
+    pathStyle: boolean;
   };
   azure: {
     connectionString: string;
@@ -59,6 +62,10 @@ const mediaSchema = Joi.object({
         endPoint: Joi.string()
           .uri({ scheme: /^https?/ })
           .label('HD_MEDIA_BACKEND_S3_ENDPOINT'),
+        region: Joi.string().optional().label('HD_MEDIA_BACKEND_S3_REGION'),
+        pathStyle: Joi.boolean()
+          .default(false)
+          .label('HD_MEDIA_BACKEND_S3_PATH_STYLE'),
       }),
       otherwise: Joi.optional(),
     }),
@@ -110,6 +117,10 @@ export default registerAs('mediaConfig', () => {
           secretAccessKey: process.env.HD_MEDIA_BACKEND_S3_SECRET_KEY,
           bucket: process.env.HD_MEDIA_BACKEND_S3_BUCKET,
           endPoint: process.env.HD_MEDIA_BACKEND_S3_ENDPOINT,
+          region: process.env.HD_MEDIA_BACKEND_S3_REGION,
+          pathStyle: parseOptionalBoolean(
+            process.env.HD_MEDIA_BACKEND_S3_PATH_STYLE,
+          ),
         },
         azure: {
           connectionString:
